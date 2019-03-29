@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
 
   http: ^0.12.0+1
+  cached_network_image: ^0.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,6 +42,17 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway-Regular.ttf
+        - asset: fonts/Raleway-Medium.ttf
+          weight: 600
 
   # To add assets to your application, add an assets section, like this:
   # assets:

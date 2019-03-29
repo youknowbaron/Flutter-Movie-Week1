@@ -1,8 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'api.dart';
-
 class Movie {
   final int id;
   final bool adult;
@@ -58,14 +53,5 @@ class NowPlaying {
         results: movies,
         totalPages: json['total_pages'],
         totalResults: json['total_results']);
-  }
-
-  List<Movie> createMovieList(List data) {
-    List<Movie> list = new List();
-    for (final movie in data) {
-      final _movie = Movie.fromJson(movie);
-      list.add(_movie);
-    }
-    return list;
   }
 }

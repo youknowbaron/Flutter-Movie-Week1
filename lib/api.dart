@@ -1,13 +1,10 @@
 import 'dart:convert' show json, utf8;
 import 'dart:io';
 import 'movie.dart';
+import 'const.dart';
 
 class Api {
   static final HttpClient httpClient = HttpClient();
-  static const String BASE_URL = "api.themoviedb.org";
-  static const String MOVIE = '/3/movie';
-  static const String API_KEY = "4de371dea47b9a5dcd86c1cf83c48d4e";
-  static const String NOW_PLAYING = '/now_playing';
 
   static Future<String> callApi(String url) async {
     final uri = Uri.https(BASE_URL, '$MOVIE$url', {

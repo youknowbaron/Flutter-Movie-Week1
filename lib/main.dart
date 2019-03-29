@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_week1/movie.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'api.dart';
+import 'const.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,34 +50,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-//      body: CustomScrollView(
-//        slivers: <Widget>[
-//          SliverToBoxAdapter(child: SizedBox(height: 12)),
-//          new FutureBuilder<NowPlaying>(
-//            future: Api.getNowPlaying(),
-//            builder: (context, snapshot) {
-//              if (snapshot.hasData) {
-//                return SliverList(
-//                  delegate: SliverChildBuilderDelegate((context, index) =>
-//                      ListItem(snapshot.data.results[index])),
-//                );
-//              } else if (snapshot.hasError) {
-//                return Text(snapshot.error.toString());
-//              }
-//              return CircularProgressIndicator();
-//            },
-//          ),
-//          Image.network('https://picsum.photos/250?image=9')
-//        ],
-//      ),
       body: WillPopScope(
           child: Stack(
             children: <Widget>[
@@ -93,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else {
                           return ListView.builder(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
+                                horizontal: 12, vertical: 12),
                             itemBuilder: (context, index) => buildItem(
                                 context, snapshot.data.results[index]),
                             itemCount: snapshot.data.results.length,
@@ -109,47 +89,56 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget buildItem(BuildContext context, Movie movie) {
     return Container(
       child: FlatButton(
-          onPressed: null,
-          child: Row(
+        onPressed: null,
+        child: Column(children: <Widget>[
+          SizedBox(
+            height: 4,
+          ),
+          Row(
             children: <Widget>[
-              Flexible(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          movie.title,
-                          style: Theme.of(context).textTheme.title,
+              Material(
+                child: CachedNetworkImage(
+                  imageUrl: '$BASE_URL_IMAGE$THUMBNAIL${movie.posterPath}',
+                  placeholder: (context, url) => Container(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.0,
+                          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
                         ),
-                        alignment: Alignment.centerLeft,
-                      )
-                    ],
-                  ),
+                        width: 50,
+                        height: 50,
+                      ),
+                  width: 150,
+                  height: 225,
+                  fit: BoxFit.fitHeight,
                 ),
-              )
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                clipBehavior: Clip.hardEdge,
+              ),
+              SizedBox(
+                width: 12,
+              ),
+              Flexible(
+                child: Column(children: <Widget>[
+                  Container(
+                    child: Text(
+                      movie.title,
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: 16,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                ]),
+              ),
             ],
-          )),
-    );
-  }
-}
-
-class ListItem extends StatelessWidget {
-  final Movie movie;
-
-  ListItem(this.movie, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: <Widget>[
-          Text(
-            movie.title,
-            style: Theme.of(context).textTheme.title,
-            maxLines: 2,
-          )
-        ],
+          ),
+          SizedBox(
+            height: 4,
+          ),
+        ]),
       ),
     );
   }
