@@ -55,24 +55,99 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new FutureBuilder<NowPlaying>(
-              future:Api.getNowPlaying(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data.totalPages.toString(), style: Theme.of(context).textTheme.display4,);
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return CircularProgressIndicator();
-              },
-            ),
-            Image.network('https://picsum.photos/250?image=9')
-          ],
-        ),
+//      body: CustomScrollView(
+//        slivers: <Widget>[
+//          SliverToBoxAdapter(child: SizedBox(height: 12)),
+//          new FutureBuilder<NowPlaying>(
+//            future: Api.getNowPlaying(),
+//            builder: (context, snapshot) {
+//              if (snapshot.hasData) {
+//                return SliverList(
+//                  delegate: SliverChildBuilderDelegate((context, index) =>
+//                      ListItem(snapshot.data.results[index])),
+//                );
+//              } else if (snapshot.hasError) {
+//                return Text(snapshot.error.toString());
+//              }
+//              return CircularProgressIndicator();
+//            },
+//          ),
+//          Image.network('https://picsum.photos/250?image=9')
+//        ],
+//      ),
+      body: WillPopScope(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                  child: new FutureBuilder<NowPlaying>(
+                      future: Api.getNowPlaying(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color(0xfff5a623)),
+                            ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            itemBuilder: (context, index) =>
+                                buildItem(
+                                    context, snapshot.data.results[index]),
+                            itemCount: snapshot.data.results.length,
+                          );
+                        }
+                      }
+                  )
+              )
+            ],
+          ),
+          onWillPop: null),
+    );
+  }
+
+  Widget buildItem(BuildContext context, Movie movie) {
+    return Container(
+      child: FlatButton(
+          onPressed: null,
+          child: Row(
+            children: <Widget>[
+              Text(
+                movie.title,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .title,
+                maxLines: 2,
+              )
+            ],
+          )),
+    );
+  }
+}
+
+class ListItem extends StatelessWidget {
+  final Movie movie;
+
+  ListItem(this.movie, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: <Widget>[
+          Text(
+            movie.title,
+            style: Theme
+                .of(context)
+                .textTheme
+                .title,
+            maxLines: 2,
+          )
+        ],
       ),
     );
   }
