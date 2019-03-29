@@ -21,7 +21,6 @@ class Api {
       }
       final responseBody = await httpResponse.transform(utf8.decoder).join();
       print('$responseBody');
-//      return NowPlaying.fromJson(json.decode(responseBody));
       return responseBody;
     } on Exception catch (e) {
       print('$e');

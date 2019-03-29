@@ -11,9 +11,9 @@ class Movie {
   final String title;
   final String posterPath;
   final String backdropPath;
-  final double popularity;
+  final num popularity;
   final int voteCount;
-  final double voteAverage;
+  final num voteAverage;
 
   Movie(
       {this.id,
@@ -44,23 +44,28 @@ class Movie {
 
 class NowPlaying {
   final int page;
-//  final List<Movie> results;
+  final List<Movie> results;
   final int totalPages;
   final int totalResults;
 
-  NowPlaying({this.page, this.totalPages, this.totalResults});
+  NowPlaying({this.page, this.results, this.totalPages, this.totalResults});
 
   factory NowPlaying.fromJson(Map<String, dynamic> json) {
+    var list = json['results'] as List;
+    List<Movie> movies = list.map((i) => Movie.fromJson(i)).toList();
     return NowPlaying(
         page: json['page'],
-//        results: json['results'],
+        results: movies,
         totalPages: json['total_pages'],
         totalResults: json['total_results']);
   }
-}
 
-//Future<NowPlaying> fetchNowPlaying() async {
-//  final responseBody = Api.callApi('/now_playing');
-//  print('fetchNowPlaying $responseBody');
-//  return NowPlaying.fromJson(json.decode(responseBody));
-//}
+  List<Movie> createMovieList(List data) {
+    List<Movie> list = new List();
+    for (final movie in data) {
+      final _movie = Movie.fromJson(movie);
+      list.add(_movie);
+    }
+    return list;
+  }
+}
