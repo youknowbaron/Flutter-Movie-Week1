@@ -104,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   .display1,
             ),
             new FutureBuilder<NowPlaying>(
-              future:Api.callApi('/now_playing'),
+              future:Api.getNowPlaying(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data.totalPages.toString());
+                  return Text(snapshot.data.totalPages.toString(), style: Theme.of(context).textTheme.display4,);
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
