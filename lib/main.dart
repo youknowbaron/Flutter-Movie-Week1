@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_week1/movie.dart';
+
 import 'api.dart';
 
 void main() => runApp(MyApp());
@@ -93,15 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           return ListView.builder(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
-                            itemBuilder: (context, index) =>
-                                buildItem(
-                                    context, snapshot.data.results[index]),
+                            itemBuilder: (context, index) => buildItem(
+                                context, snapshot.data.results[index]),
                             itemCount: snapshot.data.results.length,
                           );
                         }
-                      }
-                  )
-              )
+                      }))
             ],
           ),
           onWillPop: null),
@@ -114,13 +112,20 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: null,
           child: Row(
             children: <Widget>[
-              Text(
-                movie.title,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .title,
-                maxLines: 2,
+              Flexible(
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          movie.title,
+                          style: Theme.of(context).textTheme.title,
+                        ),
+                        alignment: Alignment.centerLeft,
+                      )
+                    ],
+                  ),
+                ),
               )
             ],
           )),
@@ -141,10 +146,7 @@ class ListItem extends StatelessWidget {
         children: <Widget>[
           Text(
             movie.title,
-            style: Theme
-                .of(context)
-                .textTheme
-                .title,
+            style: Theme.of(context).textTheme.title,
             maxLines: 2,
           )
         ],
