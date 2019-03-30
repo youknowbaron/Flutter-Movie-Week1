@@ -116,17 +116,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        child: Text(
-                          movie.title,
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 16,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Text(
+                                movie.title,
+                                style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: 16,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              alignment: Alignment.centerLeft,
+                            ),
                           ),
-                        ),
-                        alignment: Alignment.centerLeft,
+                          Image.asset(
+                            'images/eightteenplus.png',
+                            width: 24,
+                            height: 24,
+                          )
+                        ],
                       ),
                       Container(
                         child: Text(
@@ -161,7 +172,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           rating: movie.voteAverage.toDouble(),
                         ),
                         margin: EdgeInsets.only(top: 24),
-                      )
+                      ),
+//                      Image.asset(
+//                        'images/eightteenplus.png',
+//                        width: 40,
+//                        height: 40,
+//                      ),
                     ],
                   ),
                   margin: EdgeInsets.only(left: 16),
