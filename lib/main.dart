@@ -132,11 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               alignment: Alignment.centerLeft,
                             ),
                           ),
-                          Image.asset(
-                            'images/eightteenplus.png',
-                            width: 24,
-                            height: 24,
-                          )
+                          isLogoAdult(movie.adult),
                         ],
                       ),
                       Container(
@@ -189,5 +185,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  Widget isLogoAdult(bool adult) {
+    if (adult)
+      return Image.asset(
+        'images/eightteenplus.png',
+        width: 24,
+        height: 24,
+      );
+    else
+      return Text('');
   }
 }
