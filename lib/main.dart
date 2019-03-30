@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_week1/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'api.dart';
 import 'const.dart';
@@ -90,11 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       child: FlatButton(
         onPressed: null,
-        child: Column(children: <Widget>[
-          SizedBox(
-            height: 4,
-          ),
-          Row(
+        child: Container(
+          child: Row(
             children: <Widget>[
               Material(
                 child: CachedNetworkImage(
@@ -107,38 +105,72 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 50,
                         height: 50,
                       ),
-                  width: 120,
-                  height: 180,
+                  width: 100,
+                  height: 150,
                   fit: BoxFit.fitHeight,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 clipBehavior: Clip.hardEdge,
               ),
-              SizedBox(
-                width: 12,
-              ),
               Flexible(
-                child: Column(children: <Widget>[
-                  Container(
-                    child: Text(
-                      movie.title,
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 16,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          movie.title,
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        alignment: Alignment.centerLeft,
                       ),
-                    ),
-                    alignment: Alignment.centerLeft,
+                      Container(
+                        child: Text(
+                          'Release date: ${movie.releaseDate}.',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Raleway',
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black45),
+                        ),
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(top: 4),
+                      ),
+                      Container(
+                        child: Text(
+                          'Popularity: ${movie.popularity}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87),
+                        ),
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(top: 8),
+                      ),
+                      Container(
+                        child: SmoothStarRating(
+                          color: Colors.blueAccent,
+                          starCount: 10,
+                          size: 20,
+                          rating: movie.voteAverage.toDouble(),
+                        ),
+                        margin: EdgeInsets.only(top: 24),
+                      )
+                    ],
                   ),
-                ]),
+                  margin: EdgeInsets.only(left: 16),
+                ),
               ),
             ],
           ),
-          SizedBox(
-            height: 4,
-          ),
-        ]),
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        ),
       ),
     );
   }
