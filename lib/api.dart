@@ -30,4 +30,9 @@ class Api {
     final response = await callApi(NOW_PLAYING);
     return NowPlaying.fromJson(json.decode(response.toString()));
   }
+  
+  static Future<Movie> getMovie(int id) async {
+    final reponse = await callApi('/$id');
+    return Movie.fromJsonDetail(json.decode(reponse.toString()));
+  }
 }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:movie_week1/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-
+import 'detail.dart';
 import 'api.dart';
 import 'const.dart';
+import 'util.dart';
 
 void main() => runApp(MyApp());
 
@@ -90,13 +91,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget buildItem(BuildContext context, Movie movie) {
     return Container(
       child: FlatButton(
-        onPressed: null,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailMovie(title: movie.title, id: movie.id,)),
+          );
+        },
         child: Container(
           child: Row(
             children: <Widget>[
               Material(
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_URL_IMAGE$THUMBNAIL${movie.posterPath}',
+                  imageUrl: Utils.getLinkImageThumbnail(movie.posterPath),
                   placeholder: (context, url) => Container(
                         child: CircularProgressIndicator(
                           strokeWidth: 1.0,
